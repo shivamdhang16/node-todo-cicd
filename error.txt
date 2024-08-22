@@ -1,0 +1,71 @@
+errors which i faced
+
+---------Errors number 1--------------
+Started by user shivam dhanG
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/TGW_Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone)
+[Pipeline] echo
+Cloning repository...
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/TGW_Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/shivamdhang16/node-todo-cicd.git # timeout=10
+Fetching upstream changes from https://github.com/shivamdhang16/node-todo-cicd.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+ > git fetch --tags --force --progress -- https://github.com/shivamdhang16/node-todo-cicd.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision de951caf31e6cd4fb78f5013c0bc837c7581e8ab (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f de951caf31e6cd4fb78f5013c0bc837c7581e8ab # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master de951caf31e6cd4fb78f5013c0bc837c7581e8ab # timeout=10
+Commit message: "Merge pull request #205 from dheeruyadav54/master"
+ > git rev-list --no-walk de951caf31e6cd4fb78f5013c0bc837c7581e8ab # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] echo
+Building Docker image...
+[Pipeline] sh
++ docker build -t node-app .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/build?buildargs=%7B%7D&cachefrom=%5B%5D&cgroupparent=&cpuperiod=0&cpuquota=0&cpusetcpus=&cpusetmems=&cpushares=0&dockerfile=Dockerfile&labels=%7B%7D&memory=0&memswap=0&networkmode=default&rm=1&shmsize=0&t=node-app&target=&ulimits=null&version=1": dial unix /var/run/docker.sock: connect: permission denied
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+Stage "Test" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+Stage "Deploy" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
+
+
+
+solution-----
+
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+
