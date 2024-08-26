@@ -1,39 +1,43 @@
 pipeline {
-    agent { label "dev-server"}
-    
+    agent any
     stages {
-        
-        stage("code"){
-            steps{
-                git url: "https://github.com/LondheShubham153/node-todo-cicd.git", branch: "master"
-                echo 'bhaiyya code clone ho gaya'
+        stage('Clone') {
+            steps {
+                echo 'Clone done'
+                git url: "https://github.com/shivamdhang16/node-todo-cicd.git", branch: "master"
             }
         }
-        stage("build and test"){
-            steps{
+        stage('Build & Test') {
+            steps {
                 sh "docker build -t node-app-test-new ."
-                echo 'code build bhi ho gaya'
+                echo 'Build & Test done'
             }
         }
-        stage("scan image"){
-            steps{
-                echo 'image scanning ho gayi'
+        stage('Scan') {
+            steps {
+                echo 'Scanning done'
             }
         }
-        stage("push"){
-            steps{
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker tag node-app-test-new:latest ${env.dockerHubUser}/node-app-test-new:latest"
-                sh "docker push ${env.dockerHubUser}/node-app-test-new:latest"
-                echo 'image push ho gaya'
+        stage('Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'dockerHubUser', passwordVariable: 'dockerHubPass')]) {
+                    sh '''
+                    # Log in
+                    echo "$dockerHubPass" | docker login -u "$dockerHubUser" --password-stdin
+                    
+                    # Tag
+                    docker tag node-app-test-new:latest ${dockerHubUser}/node-app-test-new:latest
+                    
+                    # Push the Docker image to Docker Hub
+                    docker push ${dockerHubUser}/node-app-test-new:latest
+                    '''
+                    echo 'Push done'
                 }
             }
         }
-        stage("deploy"){
-            steps{
-                sh "docker-compose down && docker-compose up -d"
-                echo 'deployment ho gayi'
+        stage('Deploy') {
+            steps {
+                echo 'Deploy done'
             }
         }
     }
