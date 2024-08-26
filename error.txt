@@ -212,7 +212,7 @@ Finished: FAILURE
 
 solution--
 Added credentials from dockerhub
-
-
+we got images after pushing 
+which is -- shivam5252/node-app-test-new
 
 
