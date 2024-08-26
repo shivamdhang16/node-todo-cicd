@@ -69,3 +69,150 @@ solution-----
 sudo usermod -aG docker jenkins
 sudo systemctl restart jenkins
 
+
+
+error-2
+
+Started by user shivam dhanG
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/TGW_Pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone)
+[Pipeline] echo
+Clone done
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/TGW_Pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/shivamdhang16/node-todo-cicd.git # timeout=10
+Fetching upstream changes from https://github.com/shivamdhang16/node-todo-cicd.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+ > git fetch --tags --force --progress -- https://github.com/shivamdhang16/node-todo-cicd.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 4e819cf7cdd6ec709d057d2a15b64dad98f532fa (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4e819cf7cdd6ec709d057d2a15b64dad98f532fa # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 4e819cf7cdd6ec709d057d2a15b64dad98f532fa # timeout=10
+Commit message: "Create error.txt"
+ > git rev-list --no-walk 4e819cf7cdd6ec709d057d2a15b64dad98f532fa # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Test)
+[Pipeline] sh
++ docker build -t node-app-test-new .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  540.7kB
+
+Step 1/7 : FROM node:12.2.0-alpine
+ ---> f391dabf9dce
+Step 2/7 : WORKDIR /node
+ ---> Using cache
+ ---> 48b0b6f03628
+Step 3/7 : COPY . .
+ ---> 2e87caaf1b6f
+Step 4/7 : RUN npm install
+ ---> Running in 0d37c8e0294a
+[91mnpm[0m[91m WARN read-shrinkwrap This version of npm is compatible with lockfileVersion@1, but package-lock.json was generated for lockfileVersion@2. I'll try to do my best with it!
+[0m
+> ejs@2.7.4 postinstall /node/node_modules/ejs
+> node ./postinstall.js
+
+Thank you for installing [35mEJS[0m: built with the [32mJake[0m JavaScript build tool ([32mhttps://jakejs.com/[0m)
+
+[91mnpm WARN my-todolist@0.1.0 No repository field.
+[0m[91mnpm WARN my-todolist@0.1.0 No license field.
+[0m[91m
+[0madded 291 packages from 653 contributors and audited 291 packages in 5.223s
+found 17 vulnerabilities (1 low, 3 moderate, 10 high, 3 critical)
+  run npm audit fix to fix them, or npm audit for details
+Removing intermediate container 0d37c8e0294a
+ ---> 62cb250430ac
+Step 5/7 : RUN npm run test
+ ---> Running in a7a40ed39063
+
+> my-todolist@0.1.0 test /node
+> mocha --recursive --exit
+
+
+
+  Simple Calculations
+This part executes once before all tests
+    Test1
+executes before every test
+      ✓ Is returning 5 when adding 2 + 3
+executes before every test
+      ✓ Is returning 6 when multiplying 2 * 3
+    Test2
+executes before every test
+      ✓ Is returning 4 when adding 2 + 3
+executes before every test
+      ✓ Is returning 8 when multiplying 2 * 4
+This part executes once after all tests
+
+
+  4 passing (8ms)
+
+Removing intermediate container a7a40ed39063
+ ---> 2b501ed9d05c
+Step 6/7 : EXPOSE 8000
+ ---> Running in cdbd72442a4e
+Removing intermediate container cdbd72442a4e
+ ---> 114525c608f7
+Step 7/7 : CMD ["node","app.js"]
+ ---> Running in eab6ffa024b9
+Removing intermediate container eab6ffa024b9
+ ---> 333c30541e2a
+Successfully built 333c30541e2a
+Successfully tagged node-app-test-new:latest
+[Pipeline] echo
+Build & Test done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Scan)
+[Pipeline] echo
+Scanning done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push)
+[Pipeline] withCredentials
+Masking supported pattern matches of $dockerHubPass
+[Pipeline] {
+[Pipeline] sh
++ echo ****
++ docker login -u shivamdhang16 --password-stdin
+Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: incorrect username or password
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+Stage "Deploy" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
+
+
+solution--
+Added credentials from dockerhub
+
+
+
+
