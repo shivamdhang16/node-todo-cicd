@@ -1,5 +1,6 @@
 pipeline {
-    agent any
+    agent { label "dev-agent" }
+    
     stages {
         stage('Clone') {
             steps {
@@ -22,10 +23,10 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', usernameVariable: 'dockerHubUser', passwordVariable: 'dockerHubPass')]) {
                     sh '''
-                    # Log in
+                    # Log in to Docker Hub
                     echo "$dockerHubPass" | docker login -u "$dockerHubUser" --password-stdin
                     
-                    # Tag
+                    # Tag the Docker image
                     docker tag node-app-test-new:latest ${dockerHubUser}/node-app-test-new:latest
                     
                     # Push the Docker image to Docker Hub
@@ -38,7 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "docker-compose down && docker-compose up -d"
-                echo 'deployment done'
+                echo 'Deploy done'
             }
         }
     }
