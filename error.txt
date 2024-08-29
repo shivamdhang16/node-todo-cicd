@@ -215,4 +215,123 @@ Added credentials from dockerhub
 we got images after pushing 
 which is -- shivam5252/node-app-test-new
 
+jenkins server is only for ruuning jenkins script
+
+------------------------------------------------ --
+------------------------------------------------ --
+
+
+1) for actual deployment we need creat one agent server 
+2) After this we need to connect master and agent server with the help of key
+3) install java for jenkins on agent server
+4) now we need to connect jenkins to agent through console
+5) manage jenkins--setup node--name--number of exucuter--mention remote directory path (/home/ubuntu/jenkins-workspace) (before this we created workspce/directoy named as jenkins-workspace)
+6)Usage--Launch method(via SSH)
+7) host as a agent public address (44.202.7.243) (agent server public address)
+8)Credentials--ssh username with private key--ID--username (ubuntu)
+9) private key-- go to master/jenkins node copy the private key content and paste it here (on agent console)
+10)Host Key Verification Strategy--non verifying varificarion strategy
+11) connect to agent server and and connet 
+
+
+
+
+{{{{{SSHLauncher{host='3.92.222.71', port=22, credentialsId='jenkins-agent-dev', jvmOptions='', javaPath='', prefixStartSlaveCmd='', suffixStartSlaveCmd='', launchTimeoutSeconds=60, maxNumRetries=10, retryWaitTime=15, sshHostKeyVerificationStrategy=hudson.plugins.sshslaves.verifiers.NonVerifyingKeyVerificationStrategy, tcpNoDelay=true, trackCredentials=true}
+[08/28/24 11:46:24] [SSH] Opening SSH connection to 3.92.222.71:22.
+[08/28/24 11:46:24] [SSH] WARNING: SSH Host Keys are not being verified. Man-in-the-middle attacks may be possible against this connection.
+[08/28/24 11:46:24] [SSH] Authentication successful.
+[08/28/24 11:46:25] [SSH] The remote user's environment is:
+BASH=/usr/bin/bash
+BASHOPTS=checkwinsize:cmdhist:complete_fullquote:extquote:force_fignore:globasciiranges:globskipdots:hostcomplete:interactive_comments:patsub_replacement:progcomp:promptvars:sourcepath
+BASH_ALIASES=()
+BASH_ARGC=([0]="0")
+BASH_ARGV=()
+BASH_CMDS=()
+BASH_EXECUTION_STRING=set
+BASH_LINENO=()
+BASH_LOADABLES_PATH=/usr/local/lib/bash:/usr/lib/bash:/opt/local/lib/bash:/usr/pkg/lib/bash:/opt/pkg/lib/bash:.
+BASH_SOURCE=()
+BASH_VERSINFO=([0]="5" [1]="2" [2]="21" [3]="1" [4]="release" [5]="x86_64-pc-linux-gnu")
+BASH_VERSION='5.2.21(1)-release'
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+DIRSTACK=()
+EUID=1000
+GROUPS=()
+HOME=/home/ubuntu
+HOSTNAME=ip-172-31-92-250
+HOSTTYPE=x86_64
+IFS=$' \t\n'
+LANG=C.UTF-8
+LOGNAME=ubuntu
+MACHTYPE=x86_64-pc-linux-gnu
+OPTERR=1
+OPTIND=1
+OSTYPE=linux-gnu
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PIPESTATUS=([0]="0")
+PPID=18816
+PS4='+ '
+PWD=/home/ubuntu
+SHELL=/bin/bash
+SHELLOPTS=braceexpand:hashall:interactive-comments
+SHLVL=1
+SSH_CLIENT='44.202.7.243 42642 22'
+SSH_CONNECTION='44.202.7.243 42642 172.31.92.250 22'
+TERM=dumb
+UID=1000
+USER=ubuntu
+XDG_RUNTIME_DIR=/run/user/1000
+XDG_SESSION_CLASS=user
+XDG_SESSION_ID=23
+XDG_SESSION_TYPE=tty
+_=']'
+Checking Java version in the PATH
+openjdk version "17.0.12" 2024-07-16
+OpenJDK Runtime Environment (build 17.0.12+7-Ubuntu-1ubuntu224.04)
+OpenJDK 64-Bit Server VM (build 17.0.12+7-Ubuntu-1ubuntu224.04, mixed mode, sharing)
+[08/28/24 11:46:25] [SSH] Checking java version of /home/ubuntu/jenkins-workspace/jdk/bin/java
+Couldn't figure out the Java version of /home/ubuntu/jenkins-workspace/jdk/bin/java
+bash: line 1: /home/ubuntu/jenkins-workspace/jdk/bin/java: No such file or directory
+
+[08/28/24 11:46:25] [SSH] Checking java version of java
+[08/28/24 11:46:25] [SSH] java -version returned 17.0.12.
+[08/28/24 11:46:25] [SSH] Starting sftp client.
+[08/28/24 11:46:25] [SSH] Copying latest remoting.jar...
+Source agent hash is F6D5AD4C308321A99325983CE626F196. Installed agent hash is F6D5AD4C308321A99325983CE626F196
+Verified agent jar. No update is necessary.
+Expanded the channel window size to 4MB
+[08/28/24 11:46:26] [SSH] Starting agent process: cd "/home/ubuntu/jenkins-workspace" && java  -jar remoting.jar -workDir /home/ubuntu/jenkins-workspace -jar-cache /home/ubuntu/jenkins-workspace/remoting/jarCache
+Aug 28, 2024 11:46:26 AM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/ubuntu/jenkins-workspace/remoting as a remoting work directory
+Aug 28, 2024 11:46:26 AM org.jenkinsci.remoting.engine.WorkDirManager setupLogging
+INFO: Both error and output logs will be printed to /home/ubuntu/jenkins-workspace/remoting
+<===[JENKINS REMOTING CAPACITY]===>channel started
+Remoting version: 3248.3250.v3277a_8e88c9b_
+Launcher: SSHLauncher
+Communication Protocol: Standard in/out
+This is a Unix agent
+Agent successfully connected and online}}}
+
+will get this one
+
+Agent agent-server
+Edit description
+Mark this node temporarily offline
+agent-server
+Monitoring Data
+Labels
+dev-agent
+Projects tied to agent-server
+None
+
+error -->> i got java path issue i configured again and mentioned java path
+
+error--->> permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/build?buildargs=%7B%7D&cachefrom=%5B%5D&cgroupparent=&cpuperiod=0&cpuquota=0&cpusetcpus=&cpusetmems=&cpushares=0&dockerfile=Dockerfile&labels=%7B%7D&memory=0&memswap=0&networkmode=default&rm=1&shmsize=0&t=node-app-test-new&target=&ulimits=null&version=1": dial unix /var/run/docker.sock: connect: permission denied
+solution-->>
+sudo usermod -aG docker jenkins
+
+
+
+
+
 
